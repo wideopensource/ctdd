@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "cttd"
-version = "0.0.1a0"
+version = "0.0.1a1"
 description = "C test-driven development framework implemented in Python"
 authors = [
   "WideOpenTech <fossie@wideopentech.co.uk>",
