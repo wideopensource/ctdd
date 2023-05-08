@@ -1,6 +1,6 @@
 [tool.poetry]
-name = "cttd"
-version = "0.0.1"
+name = "ctdd"
+version = "0.0.2a1"
 description = "C test-driven development framework implemented in Python"
 authors = [
   "WideOpenTech <fossie@wideopentech.co.uk>",
@@ -11,11 +11,11 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
 ]
-repository = "https://github.com/wideopensource/cttd"
+repository = "https://github.com/wideopensource/ctdd"
 
 [project.urls]
-"Homepage" = "https://github.com/wideopensource/cttd"
-"Bug Tracker" = "https://github.com/wideopensource/cttd/issues"
+"Homepage" = "https://github.com/wideopensource/ctdd"
+"Bug Tracker" = "https://github.com/wideopensource/ctdd/issues"
 
 [tool.poetry.dependencies]
 python = "^3.8"
