@@ -1,4 +1,4 @@
-from cttd import Tester
+from ctdd import Tester
 
 
 class Add3Tests(Tester):

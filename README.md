@@ -1,4 +1,4 @@
-# cttd
+# ctdd
 
 ## tl:dr
 
@@ -10,14 +10,14 @@ The testing framework is Python's native unittest, with a few extra asserts ans 
 
 ## Example
 
-There is a demo of a TTD'd `add3` function in \_\_main\_\_.py, \_\_main\_\_.c and \_\_main\_\_.h in the root of the repo, run with `python3 .`. The silly filenames are to suit the Python auto-run mechanism.
+There is a demo of a TDD'd `add3` function in \_\_main\_\_.py, \_\_main\_\_.c and \_\_main\_\_.h in the root of the repo, run with `python3 .`. The silly filenames are to suit the Python auto-run mechanism.
 
 The files are reproduced here (possibly out of date) with original filenames:
 
 __add3.py__
 
 ```
-from cttd import Tester
+from ctdd import Tester
 
 class Add3Tests(Tester):
 
@@ -63,7 +63,7 @@ int add3(int a, int b, int c)
 }
 ```
 
-To use this in real life install the package with `pip install cttd` (in a virtualenv if you prefer), and run `python add3.py` after each add test or add code iteration.
+To use this in real life install the package with `pip install ctdd` (in a virtualenv if you prefer), and run `python add3.py` after each add test or add code iteration.
 
 Test output is exactly what unittest said (with distutils deprecation warning removed):
 
