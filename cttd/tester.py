@@ -72,6 +72,10 @@ class Tester(TestCase):
     @property
     def sut(self):
         return self._state.ensure_sut()
+    
+    @property
+    def null_pointer(self):
+        return self.sut.null_pointer
 
     def register_mock(self, sig: str) -> None:
         if not self._state.sut:
@@ -81,3 +85,10 @@ class Tester(TestCase):
         def_extern_decorator = self._state.tube._ffi.def_extern()
         def_extern_decorator(func)
         return getattr(self._state.tube._lib, func.__name__)
+    
+    def assertStrEqual(self, expected, actual):
+        if not isinstance(actual, str):
+            actual = self.sut.str(actual)
+
+        self.assertEqual(actual, expected)
+
