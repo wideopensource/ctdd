@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "ctdd"
-version = "0.0.2a1"
+version = "0.0.2"
 description = "C test-driven development framework implemented in Python"
 authors = [
   "WideOpenTech <fossie@wideopentech.co.uk>",
@@ -19,7 +19,7 @@ repository = "https://github.com/wideopensource/ctdd"
 
 [tool.poetry.dependencies]
 python = "^3.8"
-crelm = "^0.0.32"
+crelm = "^0.0.33"
 john = "^0.1.5"
 
 [build-system]

@@ -79,14 +79,14 @@ pycparser = "*"
 
 [[package]]
 name = "crelm"
-version = "0.0.32"
+version = "0.0.33"
 description = "Utility that automates turning simple C classes into Python objects"
 category = "main"
 optional = false
 python-versions = ">=3.8,<4.0"
 files = [
-    {file = "crelm-0.0.32-py3-none-any.whl", hash = "sha256:847e13601dbc2bafe0454ade5c929f67618daf30f9b92b5992aef3f1a987ebf4"},
-    {file = "crelm-0.0.32.tar.gz", hash = "sha256:0ec384ed438ad094cbbc754f8229b56b7d7c142b7378e4b20de8dc42d151b5a3"},
+    {file = "crelm-0.0.33-py3-none-any.whl", hash = "sha256:d8d543aa46461f027ace9cdf79a7bd1ea6a824ee2b4c9477a7a09eb96d0ebd61"},
+    {file = "crelm-0.0.33.tar.gz", hash = "sha256:4845380e238327a749b7692a3eb9ee88be6474ec6df054ef14287db3a5396811"},
 ]
 
 [package.dependencies]
@@ -148,4 +148,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.8"
-content-hash = "b63e403bab4839dfa96aec37abe22418e8ab7ca831ee457877bdfc0c4905a5bd"
+content-hash = "7d6cc76a09fe5896dc62d27b0dc7af6d80f18cff9795cab589922bca969f1dcc"
