@@ -1,94 +1,84 @@
 from john import TestCase
-from crelm import Factory
-import importlib
-import os.path
-
-
-class _TesterState:
-    def __init__(self, module_name: str):
-        self._module_name = module_name
-
-        self.reset()
-
-    def reset(self):
-        self.tube = None
-        self.sut = None
-        self.externs = []
-
-    def _ensure_tube(self) -> None:
-        if not self.tube:
-            self.sut = None
-
-            test_case_module = importlib.import_module(self._module_name)
-            test_case_filename = test_case_module.__file__
-            test_case_name = os.path.splitext(
-                os.path.basename(test_case_filename))[0]
-
-            c_filename = f'{test_case_name}.c'
-            h_filename = f'{test_case_name}.h'
-
-            self.tube = Factory().create_Tube(test_case_name) \
-                .set_source_folder_relative(test_case_filename) \
-                .add_source_file(c_filename) \
-                .add_header_file(h_filename) \
-                .add_externs(self.externs)
-
-            return self.tube
-
-    def ensure_sut(self):
-        if not self.sut:
-            self.sut = self._ensure_tube().squeeze()
-
-        return self.sut
-
+from .tester_state import TesterState
 
 class Tester(TestCase):
+    _state = None
+    factory = None
+
+    @staticmethod
+    def _ensure_state():
+        if not Tester._state:
+            Tester._state = TesterState('__main__')
+            Tester.factory = Tester._state.factory
+
+        return Tester
+
+    @staticmethod
+    def help():
+        Tester._ensure_state()
+
+        print([x for x in dir(Tester) if not x.startswith('_')])
+        print([x for x in dir(Tester._state.factory) if not x.startswith('_')])
+
+        return Tester
+
+    @classmethod
+    def tearDownClass(cls) -> None:
+        print(f'\r                              ', end='')
+        return super().tearDownClass()
 
     @staticmethod
     def go():
-        Tester.Runner.run()
+        Tester._ensure_state().Runner.run()
+        return Tester
 
-    @classmethod
-    def setUpClass(clazz) -> None:
-        clazz._state = _TesterState(clazz.__module__)
-        return super().setUpClass()
+    @property
+    def sut(self):
+        return Tester._state.ensure_sut()
 
-    @classmethod
-    def tearDownClass(clazz) -> None:
-        clazz._state = None
-        return super().tearDownClass()
+    def __init__(self, method_name:str):
+        super().__init__(method_name)
 
-    def setUpMocks(self):
+        test_name = self.id()
+        if test_name.startswith('__main__.'):
+            test_name = test_name[9:]
+
+        self.test_name = test_name
+
+    def setup(self):
+        pass
+
+    def teardown(self):
         pass
 
     def setUp(self):
         super().setUp()
-        self.setUpMocks()
+        self._state.ensure_sut()
+        print(f'\r> -- {self.test_name} --')
+        self.setup()
+        self._state.mocker.clear()
 
-    @property
-    def _state(self):
-        return self.__class__._state
+    def tearDown(self):
+        super().tearDown()
+        self.teardown()
+        self._state.mocker.print_all()
+        print(f'< ---{"".ljust(len(self.test_name), "-")}---')
 
-    @property
-    def sut(self):
-        return self._state.ensure_sut()
-    
-    @property
-    def null_pointer(self):
-        return self.sut.null_pointer
-
-    def register_mock(self, sig: str) -> None:
-        if not self._state.sut:
-            self._state.externs.append(sig)
-
-    def attach_mock(self, func):
-        def_extern_decorator = self._state.tube._ffi.def_extern()
-        def_extern_decorator(func)
-        return getattr(self._state.tube._lib, func.__name__)
-    
     def assertStrEqual(self, expected, actual):
         if not isinstance(actual, str):
             actual = self.sut.str(actual)
 
         self.assertEqual(actual, expected)
+
+    def assertNotCalled(self, func):
+        self.assertZero(self._state.mocker.get_number_of_calls(func))
+
+    def assertCalled(self, func):
+        self.assertNotZero(self._state.mocker.get_number_of_calls(func))
+
+    def assertCalledOnce(self, func):
+        self.assertEqual(1, self._state.mocker.get_number_of_calls(func))
+
+    def assertCalledTwice(self, func):
+        self.assertEqual(2, self._state.mocker.get_number_of_calls(func))
 
