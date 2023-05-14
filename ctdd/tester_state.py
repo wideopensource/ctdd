@@ -60,6 +60,7 @@ class TesterState:
         tube_name = name if name else test_case_name
 
         return CrelmFactory().create_Tube(tube_name) \
+            .save_compiler_temps() \
             .set_source_folder_relative(test_case_filename) \
             .add_source_file(c_filename) \
             .add_header_file(h_filename) \
