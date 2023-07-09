@@ -4,11 +4,12 @@ from .tester_state import TesterState
 class Tester(TestCase):
     _state = None
     factory = None
+    _source_files = []
 
     @staticmethod
     def _ensure_state():
         if not Tester._state:
-            Tester._state = TesterState('__main__')
+            Tester._state = TesterState('__main__', Tester._source_files)
             Tester.factory = Tester._state.factory
 
         return Tester
@@ -26,6 +27,11 @@ class Tester(TestCase):
     def tearDownClass(cls) -> None:
         print(f'\r                              ', end='')
         return super().tearDownClass()
+
+    @staticmethod
+    def addSourceFile(filename):
+        Tester._source_files.append(filename)
+        return Tester
 
     @staticmethod
     def go():

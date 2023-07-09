@@ -12,12 +12,13 @@ def _struct_creator(state, typename):
 
 class TesterState:
 
-    def __init__(self, module_name: str):
+    def __init__(self, module_name: str, source_files=[]):
         self._module_name = module_name
 
         self.factory = FFIFactory()
         self.mocker = Mocker()
         self.externs = []
+        self.source_files = source_files
         self.tube = None
         self.sut = None
 
@@ -64,6 +65,7 @@ class TesterState:
             .set_source_folder_relative(test_case_filename) \
             .add_source_file(c_filename) \
             .add_header_file(h_filename) \
+            .add_source_files(self.source_files) \
             .add_externs(self.externs)
 
     def _ensure_tube(self):
@@ -81,5 +83,10 @@ class TesterState:
             self.factory._ffi = self.tube._ffi
 
         return self.sut
+    
+    def add_source_file(self, filename):
+        self.source_files.append(filename)
+        print(f'{filename}, {self.source_files}')
+
 
 
