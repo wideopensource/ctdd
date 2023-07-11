@@ -12,9 +12,9 @@ def _struct_creator(state, typename):
 
 class TesterState:
 
-    def __init__(self, module_name: str, source_files=[]):
+    def __init__(self, module_name: str, source_files=[], verbose=False):
         self._module_name = module_name
-
+        self._verbose = verbose
         self.factory = FFIFactory()
         self.mocker = Mocker()
         self.externs = []
@@ -22,7 +22,7 @@ class TesterState:
         self.tube = None
         self.sut = None
 
-        paste = self.create_tube("introspection").squeeze()
+        paste = self.create_tube("introspection").verbose(self._verbose).squeeze()
         if paste is None:
             raise RuntimeError('introspection build failed')
 
@@ -61,6 +61,7 @@ class TesterState:
         tube_name = name if name else test_case_name
 
         return CrelmFactory().create_Tube(tube_name) \
+            .verbose(self._verbose) \
             .save_compiler_temps() \
             .set_source_folder_relative(test_case_filename) \
             .add_source_file(c_filename) \

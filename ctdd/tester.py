@@ -7,9 +7,9 @@ class Tester(TestCase):
     _source_files = []
 
     @staticmethod
-    def _ensure_state():
+    def _ensure_state(verbose=False):
         if not Tester._state:
-            Tester._state = TesterState('__main__', Tester._source_files)
+            Tester._state = TesterState('__main__', Tester._source_files, verbose=verbose)
             Tester.factory = Tester._state.factory
 
         return Tester
@@ -34,8 +34,8 @@ class Tester(TestCase):
         return Tester
 
     @staticmethod
-    def go():
-        Tester._ensure_state().Runner.run()
+    def go(verbose=False):
+        Tester._ensure_state(verbose=verbose).Runner.run()
         return Tester
 
     @property
