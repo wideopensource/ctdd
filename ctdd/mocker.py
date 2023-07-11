@@ -46,22 +46,14 @@ class Mocker:
 
         return len(self.called[key])
 
-def mock_binder(state, binding_point_name, target=None):
+def mock_binder(state, binding_point_name, target=None, rv=None):
 
     if target is None:
-        func = lambda *args: None
+        func = lambda *args: rv
         key = len(state.mocker.called)
-    elif isinstance(target, FFI.CData):
-        print('cdata')
-        func = lambda *args: target
-        key = len(state.mocker.called)
-    elif not callable(target):
-        func = lambda *args: target
-        key = len(state.mocker.called)
-    else:
-        print('callable')
+    elif callable(target):
         func = target
-        key = func.__name__
+        key = target.__name__
 
     def_extern_decorator = state.tube._ffi.def_extern(name=binding_point_name)
     def_extern_decorator(state.mocker.capture_decorator(func, key))
