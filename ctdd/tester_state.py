@@ -47,6 +47,8 @@ class TesterState:
 
                 func = partial(mock_binder, self, binding_point_name)
 
+                # print(f'binding {typedef_name} to {binding_point_name}')
+
                 setattr(self.factory, f'{typedef_name}', func)
 
     def create_tube(self, name=None):
