@@ -18,8 +18,9 @@ class Tester(TestCase):
     def help():
         Tester._ensure_state()
 
-        print([x for x in dir(Tester) if not x.startswith('_')])
-        print([x for x in dir(Tester._state.factory) if not x.startswith('_')])
+        print(f"Tester: {[x for x in dir(Tester) if not x.startswith('_')]}")
+        print(f"factory: {[x for x in dir(Tester.factory) if not x.startswith('_')]}")
+        print(f"externs: {[x for x in Tester._state.externs if not x.startswith('_')]}")
 
         return Tester
 

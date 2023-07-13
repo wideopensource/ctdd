@@ -18,7 +18,7 @@ class Mocker:
 
     def capture_decorator(self, func, key):
         def decorate(*args, **kwargs):
-            print(f'key: {key}')
+            # print(f'capture_decorator key: {key}')
 
             ret = func(*args)
 
@@ -35,6 +35,7 @@ class Mocker:
             print(b, self.called[b])
 
     def get_number_of_calls(self, key):
+        # print(f'called: {self.called}')
         if isinstance(key, int):
             if key >= len(self.called):
                 raise ValueError(f'invalid mock id {key}')
@@ -47,6 +48,7 @@ class Mocker:
         return len(self.called[key])
 
 def mock_binder(state, binding_point_name, target=None, rv=None):
+    # print(f'mock_binder {binding_point_name} target {target}')
 
     if target is None:
         func = lambda *args: rv
