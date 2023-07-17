@@ -12,13 +12,14 @@ def _struct_creator(state, typename):
 
 class TesterState:
 
-    def __init__(self, module_name: str, source_files=[], verbose=False):
+    def __init__(self, module_name: str, source_files=[], header_files=[], verbose=False):
         self._module_name = module_name
         self._verbose = verbose
         self.factory = FFIFactory()
         self.mocker = Mocker()
         self.externs = []
         self.source_files = source_files
+        self.header_files = header_files
         self.tube = None
         self.sut = None
 
@@ -69,6 +70,7 @@ class TesterState:
             .add_source_file(c_filename) \
             .add_header_file(h_filename) \
             .add_source_files(self.source_files) \
+            .add_header_files(self.header_files) \
             .add_externs(self.externs)
 
     def _ensure_tube(self):

@@ -5,11 +5,12 @@ class Tester(TestCase):
     _state = None
     factory = None
     _source_files = []
+    _header_files = []
 
     @staticmethod
     def _ensure_state(verbose=False):
         if not Tester._state:
-            Tester._state = TesterState('__main__', Tester._source_files, verbose=verbose)
+            Tester._state = TesterState('__main__', Tester._source_files,  Tester._header_files, verbose=verbose)
             Tester.factory = Tester._state.factory
 
         return Tester
@@ -32,6 +33,11 @@ class Tester(TestCase):
     @staticmethod
     def addSourceFile(filename):
         Tester._source_files.append(filename)
+        return Tester
+
+    @staticmethod
+    def addHeaderFile(filename):
+        Tester._header_files.append(filename)
         return Tester
 
     @staticmethod
