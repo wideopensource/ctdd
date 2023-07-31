@@ -123,8 +123,6 @@ def _clean_name(name):
 
 
 def _discover(root_path:str) -> int:
-    # print(f'discovering tests rooted at {root_path}')
-
     tree = [{'path':x[0], 'folders':x[1], 'files':x[2]} for x in os.walk(root_path)]
 
     errors = []
@@ -132,7 +130,7 @@ def _discover(root_path:str) -> int:
     warnings = []
     total_output = ''
     total_results = ''
-    
+
     total_number_of_tests = 0
     total_number_of_errors = 0
     total_number_of_fails = 0
@@ -217,18 +215,19 @@ def main() -> int:
     if '-c' == sys.argv[1]:
         name = sys.argv[2]
         print(f'creating class "{name}" tester files')
-        _emit_files(name, ('h', 'c', 'py'),
-                    _file_content_set, _class_content_set)
+        _emit_files(name, ('h', 'c', 'py'), _file_content_set, _class_content_set)
+        return 0
 
     if '-t' == sys.argv[1]:
         name = sys.argv[2]
         print(f'creating test "{name}" tester file')
-        _emit_files(name, ('h', 'c', 'py',),
-                    _file_content_set, _test_content_set)
+        _emit_files(name, ('h', 'c', 'py',), _file_content_set, _test_content_set)
+        return 0
 
     if '-d' == sys.argv[1]:
         path = os.path.abspath(os.path.expanduser(sys.argv[2]))
-        sys.exit(_discover(root_path=path))
+        print(f'discovering tests rooted at {path}')
+        return _discover(root_path=path)
 
 if __name__ == '__main__':
     sys.exit(main())
