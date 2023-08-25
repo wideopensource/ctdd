@@ -148,11 +148,12 @@ def _discover(root_path:str) -> int:
 
             if ctdd_tests:
                 for test in ctdd_tests:
-                    py_filename = f'{test[1]}/{test[0]}.py'
+                    py_filename = f'{test[0]}.py'
 
                     process = subprocess.Popen(['python3', py_filename],
                         stdout=subprocess.PIPE, 
-                        stderr=subprocess.PIPE)
+                        stderr=subprocess.PIPE,
+                        cwd=test[1])
                     stdout, stderr = process.communicate()
 
                     test_output = stdout.decode()
